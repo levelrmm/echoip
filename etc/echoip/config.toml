@@ -7,6 +7,8 @@ PortLookup = true
 ShowSponsor = true
 Database = "ipstack" # use "IP Stack" or "GeoIP"
 TrustedHeaders = []
+IPv4Host = "" # hostname that only resolves to IPv4 (A record), ex "ipv4.ip.level.io"
+IPv6Host = "" # hostname that only resolves to IPv6 (AAAA record), ex "ipv6.ip.level.io"
 Profile = false # enable profiling
 Debug = false # enable debugging, ex print jwt token errors
 

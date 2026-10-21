@@ -35,6 +35,8 @@ type Config struct {
 	PortLookup     bool
 	ShowSponsor    bool
 	TrustedHeaders []string
+	IPv4Host       string
+	IPv6Host       string
 
 	Database string
 	Profile  bool
@@ -51,6 +53,8 @@ func GetConfig() (Config, error) {
 		TemplateDir: getenv_string("ECHOIP_TEMPLATE_DIR", "html/"),
 		RedisUrl:    getenv_string("ECHOIP_REDIS_URL", ""),
 		Database:    getenv_string("ECHOIP_DATABASE", "geoip"),
+		IPv4Host:    getenv_string("ECHOIP_IPV4_HOST", ""),
+		IPv6Host:    getenv_string("ECHOIP_IPV6_HOST", ""),
 		Jwt: Jwt{
 			Secret:        getenv_string("ECHOIP_JWT_SECRET", ""),
 			SigningMethod: getenv_string("ECHOIP_JWT_SIGNING_METHOD", "HS256"),

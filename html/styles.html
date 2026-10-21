@@ -32,6 +32,58 @@
     fill: #151513;
     color: #fff;
   }
+  .topbar {
+    padding: 1rem 1.5rem;
+  }
+  .topbar a.brand,
+  .topbar a.brand:hover {
+    display: inline-block;
+    background: transparent;
+    color: #161719;
+  }
+  .level-logo {
+    display: block;
+    height: 28px;
+    width: auto;
+  }
+
+  .dual-stack {
+    margin: 0.5em 0 1em 0;
+    border: 1px solid #cbcbcb;
+  }
+  .stack-row {
+    display: grid;
+    grid-template-columns: 4em 1fr auto;
+    align-items: center;
+    gap: 0.25em 0.75em;
+    padding: 0.5em 0.75em;
+  }
+  .stack-row + .stack-row {
+    border-top: 1px solid #cbcbcb;
+  }
+  .stack-label {
+    font-weight: 700;
+  }
+  .stack-ip {
+    word-break: break-all;
+    color: #8e8e8e;
+  }
+  .stack-row.found .stack-ip {
+    color: inherit;
+  }
+  .stack-tag {
+    font-size: smaller;
+    color: #8e8e8e;
+  }
+  .stack-cmd {
+    grid-column: 2 / 4;
+    font-size: smaller;
+    color: #8e8e8e;
+  }
+  .stack-cmd::before {
+    content: "$ ";
+  }
+
   .footer {
     margin-top: 34px;
     border-top: 1px solid #cbcbcb;
@@ -118,6 +170,15 @@
     .ip {
       border: 1px solid #313233;
       background: #212223;
+    }
+    .topbar a.brand,
+    .topbar a.brand:hover {
+      background: transparent;
+      color: #ffffff;
+    }
+    .dual-stack,
+    .stack-row + .stack-row {
+      border-color: #313233;
     }
     .footer {
       color: #8e8e8e !important;

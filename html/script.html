@@ -18,6 +18,30 @@
      reset()
      setcommdStr()
      changeInput("ip")
+     detectDualStack()
+  }
+
+  // Look up the IP family we are not connected with through the IPv4/IPv6-only hosts
+  function detectDualStack() {
+    document.querySelectorAll(".stack-row[data-host]").forEach((row) => {
+      let ipBox = row.querySelector(".stack-ip");
+      let tag = row.querySelector(".stack-tag");
+      let controller = new AbortController();
+      setTimeout(() => controller.abort(), 5000);
+      fetch(`${window.location.protocol}//${row.dataset.host}/ip`, { signal: controller.signal })
+        .then((res) => {
+          if (!res.ok) throw new Error(res.statusText);
+          return res.text();
+        })
+        .then((text) => {
+          ipBox.innerText = text.trim();
+          tag.innerText = "detected";
+          row.classList.add("found");
+        })
+        .catch(() => {
+          ipBox.innerText = "Not available";
+        });
+    });
   }
 
   function reset() {

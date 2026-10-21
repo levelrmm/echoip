@@ -72,6 +72,21 @@ $ curl ip.level.io/port/80
 Pass the appropriate flag (usually `-4` and `-6`) to your client to switch
 between IPv4 and IPv6 lookup.
 
+### Dual stack on the web page
+
+A browser only connects over one IP family, so the web page shows the address
+of the current connection and looks up the other family through hostnames that
+only resolve to IPv4 (A record) or IPv6 (AAAA record), for example:
+
+```
+IPv4Host = "ipv4.ip.level.io" # or ECHOIP_IPV4_HOST
+IPv6Host = "ipv6.ip.level.io" # or ECHOIP_IPV6_HOST
+```
+
+Both hosts must point to echoip and, when the page is served over HTTPS, have a
+valid certificate. When they are not set, the page shows the `curl -4` and
+`curl -6` commands to get each address.
+
 ## Features
 
 - Easy to remember domain name

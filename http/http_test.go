@@ -307,3 +307,48 @@ func TestCLIMatcher(t *testing.T) {
 		}
 	}
 }
+
+func TestCLIHandlerAllowsCrossOrigin(t *testing.T) {
+	log.SetOutput(ioutil.Discard)
+	s := httptest.NewServer(testServer().Handler())
+
+	res, err := http.Get(s.URL + "/ip")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer res.Body.Close()
+	if got := res.Header.Get("Access-Control-Allow-Origin"); got != "*" {
+		t.Errorf("Expected Access-Control-Allow-Origin %q, got %q", "*", got)
+	}
+}
+
+func TestDefaultHandlerDualStack(t *testing.T) {
+	log.SetOutput(ioutil.Discard)
+	server := testServer()
+	server.runConfig = &config.Config{TemplateDir: "../html", IPv4Host: "ipv4.example.com", IPv6Host: "ipv6.example.com"}
+	s := httptest.NewServer(server.Handler())
+
+	out, status, err := httpGet(s.URL, "", "Mozilla/5.0")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if status != 200 {
+		t.Fatalf("Expected 200, got %d", status)
+	}
+
+	var tests = []string{
+		`class="stack-row found"`,      // the connection's own family is shown
+		`data-host="ipv6.example.com"`, // the other family is looked up
+		"curl -4 ",
+		"curl -6 ",
+	}
+	for _, tt := range tests {
+		if !strings.Contains(out, tt) {
+			t.Errorf("Expected page to contain %q", tt)
+		}
+	}
+	// The test server is reached over IPv4, so the IPv4 host must not be queried
+	if strings.Contains(out, `data-host="ipv4.example.com"`) {
+		t.Errorf("Expected IPv4 host not to be queried on an IPv4 connection")
+	}
+}

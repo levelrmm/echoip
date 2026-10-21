@@ -168,6 +168,8 @@ func (s *Server) CLIHandler(w http.ResponseWriter, r *http.Request) *appError {
 	if err != nil {
 		return badRequest(err).WithMessage(err.Error()).AsJSON()
 	}
+	// Allow the web page to look up the other IP family via the IPv4/IPv6-only hosts
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	fmt.Fprintln(w, ip.String())
 	return nil
 }
@@ -276,16 +278,30 @@ func (s *Server) DefaultHandler(w http.ResponseWriter, r *http.Request) *appErro
 		return internalServerError(err)
 	}
 
+	// The IP of the connection itself, ignoring any ?ip= query
+	connIP, err := ipFromRequest(s.IPHeaders, r, false)
+	if err != nil {
+		return badRequest(err).WithMessage(err.Error())
+	}
+	connIPVersion := 6
+	if connIP.To4() != nil {
+		connIPVersion = 4
+	}
+
 	var data = struct {
 		parser.Response
-		Host         string
-		BoxLatTop    float64
-		BoxLatBottom float64
-		BoxLonLeft   float64
-		BoxLonRight  float64
-		JSON         string
-		Port         bool
-		Sponsor      bool
+		Host          string
+		BoxLatTop     float64
+		BoxLatBottom  float64
+		BoxLonLeft    float64
+		BoxLonRight   float64
+		JSON          string
+		Port          bool
+		Sponsor       bool
+		ConnIP        string
+		ConnIPVersion int
+		IPv4Host      string
+		IPv6Host      string
 	}{
 		response,
 		r.Host,
@@ -296,6 +312,10 @@ func (s *Server) DefaultHandler(w http.ResponseWriter, r *http.Request) *appErro
 		string(json),
 		s.LookupPort != nil,
 		s.runConfig.ShowSponsor,
+		connIP.String(),
+		connIPVersion,
+		s.runConfig.IPv4Host,
+		s.runConfig.IPv6Host,
 	}
 
 	if err := t.Execute(w, &data); err != nil {
