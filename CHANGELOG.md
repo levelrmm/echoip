@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2](https://github.com/levelrmm/echoip/compare/v1.2.1...v1.2.2) (2026-10-21)
+
+
+### Bug Fixes
+
+* build with patched Go 1.27.3 ([#31](https://github.com/levelrmm/echoip/issues/31)) ([0e04d7c](https://github.com/levelrmm/echoip/commit/0e04d7ccfb9245c6260237ef26ab41684d72401e))
+
 ## [1.2.1](https://github.com/levelsoftware/echoip/compare/v1.2.0...v1.2.1) (2023-11-14)
 
 ### Features
