@@ -1,6 +1,6 @@
 module github.com/levelsoftware/echoip
 
-go 1.18
+go 1.27.3
 
 require (
 	github.com/BurntSushi/toml v1.3.2
@@ -10,7 +10,6 @@ require (
 	github.com/qioalice/ipstack v1.0.1
 	github.com/redis/go-redis/v9 v9.2.1
 	github.com/stretchr/testify v1.8.1
-	gopkg.in/stretchr/testify.v1 v1.2.2
 )
 
 require (

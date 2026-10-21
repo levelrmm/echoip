@@ -1,5 +1,5 @@
 # Build
-FROM golang:1.18-buster AS build
+FROM golang:1.27.3-bookworm AS build
 WORKDIR /go/src/github.com/levelsoftware/echoip
 COPY . .
 

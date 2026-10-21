@@ -96,9 +96,16 @@ between IPv4 and IPv6 lookup.
 
 ### Installation from Source
 
-- Install Go 1.18
+- Install Go 1.27.3 or newer
 - `$ cd echoip/`
 - `$ make install`
+
+### Deployment
+
+Buddy builds this service with `golang:1.27.3-bookworm`. Keep the Buddy build
+action and the Dockerfile aligned with the Go version in `go.mod`.
+Pushing or merging to `master` automatically builds and deploys to `ip.level.io`
+and restarts the IP service. Pull request branches do not deploy.
 
 ### Usage
 
